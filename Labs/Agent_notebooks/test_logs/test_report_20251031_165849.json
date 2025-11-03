@@ -1,0 +1,111 @@
+{
+  "timestamp": "2025-10-31T16:58:10.951212",
+  "tests": [
+    {
+      "test_name": "API Keys Configuration",
+      "status": "passed",
+      "duration": 0.002287626266479492,
+      "error": null,
+      "details": {
+        "openai_key_present": true,
+        "google_key_present": true,
+        "openai_key_valid_format": true
+      }
+    },
+    {
+      "test_name": "Dependencies Import",
+      "status": "failed",
+      "duration": 37.95936322212219,
+      "error": "Failed to import: langchain_google_genai",
+      "details": {
+        "import_results": {
+          "crewai": "success",
+          "langchain": "success",
+          "langchain_openai": "success",
+          "langchain_google_genai": "failed: No module named 'langchain_google_genai'",
+          "fastapi": "success",
+          "uvicorn": "success",
+          "websockets": "success",
+          "pydantic": "success"
+        }
+      }
+    },
+    {
+      "test_name": "CrewAI Agent Creation",
+      "status": "failed",
+      "duration": 0.002478361129760742,
+      "error": "Exception: No module named 'langchain_google_genai'",
+      "details": {}
+    },
+    {
+      "test_name": "CrewAI Task Creation",
+      "status": "failed",
+      "duration": 0.0029942989349365234,
+      "error": "Exception: No module named 'langchain_google_genai'",
+      "details": {}
+    },
+    {
+      "test_name": "CrewAI Crew Execution",
+      "status": "failed",
+      "duration": 0.002995014190673828,
+      "error": "Exception: No module named 'langchain_google_genai'",
+      "details": {}
+    },
+    {
+      "test_name": "Full PRD Generation Workflow",
+      "status": "failed",
+      "duration": 0.002997159957885742,
+      "error": "Exception: No module named 'langchain_google_genai'",
+      "details": {}
+    },
+    {
+      "test_name": "Web Interface Imports",
+      "status": "passed",
+      "duration": 0.0024483203887939453,
+      "error": null,
+      "details": {
+        "web_interface_exists": true,
+        "fastapi_version": "0.120.0",
+        "uvicorn_available": true,
+        "websockets_available": true
+      }
+    },
+    {
+      "test_name": "Error Handling",
+      "status": "failed",
+      "duration": 0.003732919692993164,
+      "error": "Exception: No module named 'langchain_google_genai'",
+      "details": {}
+    },
+    {
+      "test_name": "Output Quality Validation",
+      "status": "passed",
+      "duration": 0.0009932518005371094,
+      "error": null,
+      "details": {
+        "output_dir_exists": false,
+        "output_files_count": 0
+      }
+    },
+    {
+      "test_name": "Performance Metrics",
+      "status": "passed",
+      "duration": 0.0035140514373779297,
+      "error": null,
+      "details": {
+        "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+        "platform": "win32",
+        "working_directory": "C:\\Users\\labadmin\\Documents\\AG-AISOFTDEV\\Labs\\Agent_notebooks",
+        "log_file_size": 316,
+        "memory_mb": 350.03
+      }
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "passed": 4,
+    "failed": 6,
+    "skipped": 0
+  },
+  "total_duration": 38.02
+}

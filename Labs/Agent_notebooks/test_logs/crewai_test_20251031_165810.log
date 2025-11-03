@@ -1,0 +1,40 @@
+2025-10-31 16:58:10,951 - INFO - Log file: test_logs\crewai_test_20251031_165810.log
+2025-10-31 16:58:10,952 - INFO - ================================================================================
+2025-10-31 16:58:11,001 - INFO - ================================================================================
+2025-10-31 16:58:49,023 - INFO - ================================================================================
+2025-10-31 16:58:49,025 - INFO - ================================================================================
+2025-10-31 16:58:49,025 - INFO - Total Tests: 10
+2025-10-31 16:58:49,036 - INFO - ================================================================================
+2025-10-31 16:58:49,042 - INFO - 
+================================================================================
+2025-10-31 16:58:49,049 - INFO - ================================================================================
+2025-10-31 16:58:49,051 - ERROR - 
+Test: Dependencies Import
+2025-10-31 16:58:49,051 - ERROR - Error: Failed to import: langchain_google_genai
+2025-10-31 16:58:49,051 - ERROR - Details: {
+  "import_results": {
+    "crewai": "success",
+    "langchain": "success",
+    "langchain_openai": "success",
+    "langchain_google_genai": "failed: No module named 'langchain_google_genai'",
+    "fastapi": "success",
+    "uvicorn": "success",
+    "websockets": "success",
+    "pydantic": "success"
+  }
+}
+2025-10-31 16:58:49,051 - ERROR - 
+Test: CrewAI Agent Creation
+2025-10-31 16:58:49,052 - ERROR - Error: Exception: No module named 'langchain_google_genai'
+2025-10-31 16:58:49,052 - ERROR - 
+Test: CrewAI Task Creation
+2025-10-31 16:58:49,052 - ERROR - Error: Exception: No module named 'langchain_google_genai'
+2025-10-31 16:58:49,052 - ERROR - 
+Test: CrewAI Crew Execution
+2025-10-31 16:58:49,053 - ERROR - Error: Exception: No module named 'langchain_google_genai'
+2025-10-31 16:58:49,053 - ERROR - 
+Test: Full PRD Generation Workflow
+2025-10-31 16:58:49,053 - ERROR - Error: Exception: No module named 'langchain_google_genai'
+2025-10-31 16:58:49,053 - ERROR - 
+Test: Error Handling
+2025-10-31 16:58:49,054 - ERROR - Error: Exception: No module named 'langchain_google_genai'

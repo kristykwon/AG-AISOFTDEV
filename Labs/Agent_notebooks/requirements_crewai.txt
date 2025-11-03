@@ -1,0 +1,14 @@
+# CrewAI PRD Generation System Requirements
+crewai==0.86.0
+crewai-tools==0.17.0
+langchain==0.3.7
+langchain-openai==0.2.9
+langchain-google-genai==2.0.5
+python-dotenv==1.0.0
+fastapi==0.115.4
+uvicorn==0.32.0
+websockets==13.1
+pydantic==2.9.2
+# PDF generation
+markdown>=3.5.0
+reportlab>=4.0.0

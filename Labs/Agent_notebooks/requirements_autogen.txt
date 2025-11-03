@@ -1,0 +1,20 @@
+# AutoGen PRD System Requirements
+# Install with: pip install -r requirements_autogen.txt
+
+# Core AutoGen Framework
+# Note: Use version 0.2.x for compatibility with course notebooks
+pyautogen==0.2.35
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Jupyter Support (optional, for notebook usage)
+jupyter>=1.0.0
+ipykernel>=6.25.0
+ipywidgets>=8.1.0
+
+# YAML Support (for configuration file)
+pyyaml>=6.0
+
+# Additional Utilities
+requests>=2.31.0

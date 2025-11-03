@@ -1,0 +1,269 @@
+# AutoGen PRD System Configuration
+# This file contains all configurable parameters for the multi-agent system
+
+# LLM Configuration
+llm:
+  # Provider: 'openai' or 'google'
+  provider: openai
+  
+  # Model selection by provider
+  models:
+    openai: gpt-4o
+    google: gemini-2.5-pro
+  
+  # Generation parameters
+  temperature: 0.3
+  timeout: 120
+  max_tokens: 4000
+
+# Agent Configuration
+agents:
+  requirements_analyst:
+    name: "RequirementsAnalyst"
+    enabled: true
+    system_message: |
+      You are a Senior Requirements Analyst with 10+ years of experience.
+      Your role is to:
+      1. Analyze business problem statements and extract core requirements
+      2. Identify user personas involved in the solution
+      3. Generate detailed user stories in Agile format with acceptance criteria
+      4. Output structured JSON containing user stories
+      
+      CRITICAL: Your output MUST be valid JSON. Each user story must include:
+      - 'id': integer
+      - 'persona': string (the user type)
+      - 'user_story': string in format "As a [persona], I want [goal], so that [benefit]"
+      - 'acceptance_criteria': array of strings in Gherkin format (Given/When/Then)
+      
+      Always produce at least 5 comprehensive user stories.
+
+  product_manager:
+    name: "ProductManager"
+    enabled: true
+    system_message: |
+      You are a Senior Product Manager with experience in B2B SaaS products.
+      Your role is to:
+      1. Take user stories and synthesize them into a comprehensive PRD
+      2. Follow the standard PRD template structure
+      3. Include sections: Introduction, User Personas, Features/User Stories, Success Metrics, Out of Scope
+      4. Infer reasonable content for sections not explicitly in the user stories
+      5. Output clean, well-formatted markdown
+      
+      The PRD should be production-ready and serve as the source of truth for development.
+
+  technical_architect:
+    name: "TechnicalArchitect"
+    enabled: true
+    system_message: |
+      You are a Staff Software Engineer and Technical Architect specializing in database design.
+      Your role is to:
+      1. Design normalized SQL database schemas based on PRD requirements
+      2. Create realistic seed data for testing
+      3. Document technical decisions in ADR format
+      4. Consider scalability, maintainability, and best practices
+      5. Output clean SQL without markdown fences (when requested)
+      
+      For database design:
+      - Use proper primary keys, foreign keys, and indexes
+      - Follow normalization principles (3NF minimum)
+      - Include appropriate constraints and data types
+      - Consider query performance
+
+  quality_reviewer:
+    name: "QualityReviewer"
+    enabled: true
+    system_message: |
+      You are a Senior Quality Assurance Engineer and Documentation Specialist.
+      Your role is to:
+      1. Review all artifacts for completeness and quality
+      2. Validate JSON structure and data integrity
+      3. Ensure PRDs contain all required sections
+      4. Verify SQL schemas are properly normalized
+      5. Check that acceptance criteria are testable
+      
+      You must provide constructive feedback. If an artifact is perfect and meets all requirements,
+      you must reply with 'APPROVED: [artifact name]'.
+      
+      If there are issues, list them clearly with specific recommendations for improvement.
+
+  user_proxy:
+    name: "Coordinator"
+    enabled: true
+    human_input_mode: "NEVER"
+    max_consecutive_auto_reply: 15
+    code_execution_enabled: true
+    work_dir: "autogen_workspace"
+    use_docker: false
+
+# Workflow Configuration
+workflows:
+  user_stories:
+    enabled: true
+    max_rounds: 8
+    agents:
+      - user_proxy
+      - requirements_analyst
+      - quality_reviewer
+    output_file: "artifacts/autogen_user_stories.json"
+    min_stories: 5
+
+  prd_generation:
+    enabled: true
+    max_rounds: 10
+    agents:
+      - user_proxy
+      - product_manager
+      - quality_reviewer
+    output_file: "artifacts/autogen_prd.md"
+    template_file: "templates/prd_template.md"
+    required_sections:
+      - Introduction
+      - User Personas
+      - Features
+      - Success Metrics
+      - Out of Scope
+
+  schema_generation:
+    enabled: true
+    max_rounds: 10
+    agents:
+      - user_proxy
+      - technical_architect
+      - quality_reviewer
+    output_file: "artifacts/autogen_schema.sql"
+    required_tables:
+      - users
+      - onboarding_tasks
+    database_type: sqlite
+
+  adr_generation:
+    enabled: false
+    max_rounds: 8
+    agents:
+      - user_proxy
+      - technical_architect
+      - quality_reviewer
+    output_file: "artifacts/autogen_adr_001.md"
+    template_file: "templates/adr_template.md"
+
+# Validation Rules
+validation:
+  user_stories:
+    required_fields:
+      - id
+      - persona
+      - user_story
+      - acceptance_criteria
+    min_acceptance_criteria: 1
+    validate_gherkin: true
+    validate_user_story_format: true
+
+  prd:
+    required_sections:
+      - Introduction
+      - User Personas
+      - Features
+      - Success Metrics
+    min_word_count: 500
+    validate_markdown: true
+
+  schema:
+    required_tables:
+      - users
+      - onboarding_tasks
+    validate_foreign_keys: true
+    validate_primary_keys: true
+    check_normalization: true
+
+# Artifact Management
+artifacts:
+  base_dir: "artifacts"
+  overwrite_existing: true
+  create_backups: false
+  backup_dir: "artifacts/backups"
+  naming_convention: "autogen_{artifact_type}.{extension}"
+
+# Logging and Debugging
+logging:
+  enabled: true
+  level: INFO
+  log_file: "autogen_prd_system.log"
+  log_conversations: true
+  conversation_log_dir: "logs/conversations"
+
+# Performance Optimization
+performance:
+  enable_caching: true
+  cache_dir: ".cache"
+  parallel_workflows: false
+  batch_size: 1
+
+# Example Business Problems
+# These can be used for testing or batch processing
+example_problems:
+  - name: "Employee Onboarding"
+    description: |
+      We need a tool to help our company's new hires get up to speed. 
+      New employees often feel overwhelmed in their first weeks and don't know 
+      what tasks to complete or who to talk to. We want to create a system that 
+      guides them through onboarding, tracks their progress, and helps managers 
+      monitor completion.
+
+  - name: "Customer Support Ticketing"
+    description: |
+      We need a customer support ticketing system that helps our support team
+      manage customer inquiries efficiently. Support agents need to track tickets,
+      prioritize urgent issues, and collaborate on complex problems. Customers
+      should be able to submit tickets and track their status.
+
+  - name: "Project Management Tool"
+    description: |
+      We need a lightweight project management tool for small teams. Team members
+      need to create tasks, assign them to colleagues, set deadlines, and track
+      progress. The tool should provide visibility into project status and help
+      identify bottlenecks.
+
+  - name: "Inventory Management System"
+    description: |
+      We need an inventory management system for our warehouse operations. 
+      Warehouse staff need to track stock levels, record incoming shipments,
+      fulfill orders, and generate reports. The system should alert when stock
+      is low and help with reordering.
+
+# Custom Extensions
+extensions:
+  # Add custom agents
+  custom_agents: []
+  
+  # Add custom workflows
+  custom_workflows: []
+  
+  # Add custom validators
+  custom_validators: []
+
+# Integration Settings
+integrations:
+  jira:
+    enabled: false
+    server_url: ""
+    api_token: ""
+    project_key: ""
+
+  github:
+    enabled: false
+    repo_url: ""
+    api_token: ""
+    create_issues: false
+
+  slack:
+    enabled: false
+    webhook_url: ""
+    notify_on_completion: false
+
+# Feature Flags
+features:
+  enable_adr_generation: false
+  enable_test_plan_generation: false
+  enable_cost_estimation: false
+  enable_risk_analysis: false
+  enable_diagram_generation: false
